@@ -1,7 +1,12 @@
 import type { ApiErrorBody, Booking, CreateBookingRequest, CreateEventTypeRequest, EventType, Owner, Slot } from './types'
 
+const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL
 export const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ?? 'http://localhost:3000'
+  configuredBaseUrl === undefined
+    ? import.meta.env.DEV
+      ? 'http://localhost:3000'
+      : ''
+    : configuredBaseUrl.replace(/\/$/, '')
 
 export class ApiError extends Error {
   readonly status: number
@@ -28,7 +33,9 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     })
   } catch {
     throw new ApiError(0, {
-      message: `Не удалось связаться с API (${API_BASE_URL}). Запустите бэкенд или Prism.`,
+      message: API_BASE_URL
+        ? `Не удалось связаться с API (${API_BASE_URL}). Запустите бэкенд или Prism.`
+        : 'Не удалось связаться с API.',
     })
   }
 

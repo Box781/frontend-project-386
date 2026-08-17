@@ -1,4 +1,4 @@
-.PHONY: tsp prism frontend backend e2e
+.PHONY: tsp prism frontend backend e2e docker-build docker-run
 
 tsp:
 	cd api-contract && npm ci && npm run compile
@@ -14,3 +14,9 @@ frontend:
 
 e2e:
 	cd e2e && npm ci && npx playwright install --with-deps chromium && npm test
+
+docker-build:
+	docker build -t call-booking .
+
+docker-run:
+	docker run --rm -e PORT=8080 -p 8080:8080 call-booking

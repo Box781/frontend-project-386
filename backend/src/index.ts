@@ -2,7 +2,8 @@ import { serve } from '@hono/node-server'
 import { app } from './app.ts'
 
 const port = Number(process.env.PORT ?? 3000)
+const hostname = process.env.HOST ?? '0.0.0.0'
 
-serve({ fetch: app.fetch, port }, (info) => {
-  console.log(`Call Booking API: http://localhost:${info.port}`)
+serve({ fetch: app.fetch, port, hostname }, (info) => {
+  console.log(`Call Booking: http://${info.address}:${info.port}`)
 })

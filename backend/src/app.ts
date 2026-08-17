@@ -8,6 +8,7 @@ import {
   overlapsAny,
   slotEnd,
 } from './slots.ts'
+import { isSpaDocumentRequest, mountFrontend, spaIndex } from './frontend.ts'
 import { seedStore, store } from './store.ts'
 import {
   DURATION_MINUTES,
@@ -41,7 +42,12 @@ app.onError((error, c) => {
 
 app.get('/admin/owner', (c) => c.json(OWNER))
 
-app.get('/admin/event-types', (c) => c.json(store.listEventTypes()))
+app.get('/admin/event-types', async (c) => {
+  if (isSpaDocumentRequest(c)) {
+    return spaIndex(c)
+  }
+  return c.json(store.listEventTypes())
+})
 
 app.post('/admin/event-types', async (c) => {
   const body = await readJson(c)
@@ -172,3 +178,5 @@ function requireEventType(id: string): EventType {
   }
   return eventType
 }
+
+mountFrontend(app)

@@ -13,3 +13,18 @@ E2E: [`e2e/`](e2e/). Коммиты: [`docs/commits.md`](docs/commits.md).
 Локально: `make backend` и в другом терминале `make frontend`.  
 Сценарии бронирования: `make e2e`.
 
+## Docker
+
+Образ собирает UI и API в один контейнер. Приложение слушает `HOST=0.0.0.0` и порт из `PORT`.
+
+```bash
+docker build -t call-booking .
+docker run --rm -e PORT=8080 -p 8080:8080 call-booking
+```
+
+Откройте http://localhost:8080.
+
+## Деплой
+
+Приложение опубликовано: _ссылка появится после деплоя._
+
