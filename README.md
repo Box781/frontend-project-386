@@ -26,5 +26,7 @@ docker run --rm -e PORT=8080 -p 8080:8080 call-booking
 
 ## Деплой
 
-Приложение опубликовано: _ссылка появится после деплоя._
+Публичная ссылка: [https://call-booking-jey6.onrender.com](https://call-booking-jey6.onrender.com)
+
+Сервис на Render, Free, Docker runtime. Слушает `PORT`, который задаёт платформа.
 
