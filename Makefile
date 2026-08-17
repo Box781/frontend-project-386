@@ -1,4 +1,4 @@
-.PHONY: tsp prism frontend backend
+.PHONY: tsp prism frontend backend e2e
 
 tsp:
 	cd api-contract && npm ci && npm run compile
@@ -11,3 +11,6 @@ backend:
 
 frontend:
 	cd frontend && npm ci && npm run dev
+
+e2e:
+	cd e2e && npm ci && npx playwright install --with-deps chromium && npm test

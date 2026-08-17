@@ -7,7 +7,9 @@
 
 Контракт: [`api-contract/`](api-contract/).  
 Интерфейс: [`frontend/`](frontend/).  
-Бэкенд: [`backend/`](backend/).
+Бэкенд: [`backend/`](backend/).  
+E2E: [`e2e/`](e2e/). Коммиты: [`docs/commits.md`](docs/commits.md).
 
-Локально: `make backend` и в другом терминале `make frontend`.
+Локально: `make backend` и в другом терминале `make frontend`.  
+Сценарии бронирования: `make e2e`.
 

@@ -1,4 +1,7 @@
 node_modules/
 tsp-output/
 .DS_Store
-*.log
+test-results/
+playwright-report/
+blob-report/
+
