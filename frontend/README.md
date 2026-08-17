@@ -4,10 +4,10 @@ Vite + React + TypeScript + shadcn/ui. Данные только через HTTP
 
 ## Запуск
 
-В одном терминале — mock API по OpenAPI:
+В одном терминале — бэкенд:
 
 ```bash
-npm run dev:api
+cd ../backend && npm run dev
 ```
 
 В другом — UI:
@@ -18,9 +18,7 @@ npm run dev
 ```
 
 UI: http://localhost:5173  
-Prism: http://localhost:4010
-
-Когда появится настоящий бэкенд, укажите его в `VITE_API_BASE_URL` (по контракту это `http://localhost:3000`).
+API: http://localhost:3000
 
 ## Страницы
 
