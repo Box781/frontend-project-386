@@ -49,6 +49,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Booking'
+              example:
+                - id: bkg_01
+                  eventTypeId: intro-call
+                  eventTypeTitle: Знакомство
+                  startAt: '2026-08-19T10:00:00.000Z'
+                  endAt: '2026-08-19T10:30:00.000Z'
+                  guestName: Иван Петров
+                  guestEmail: ivan@example.com
       tags:
         - Owner
   /admin/event-types:
@@ -65,6 +73,15 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/EventType'
+              example:
+                - id: intro-call
+                  title: Знакомство
+                  description: Короткий звонок, чтобы обсудить задачу.
+                  durationMinutes: 30
+                - id: demo
+                  title: Демо продукта
+                  description: Покажем, как устроен сервис, и ответим на вопросы.
+                  durationMinutes: 45
       tags:
         - Owner
     post:
@@ -170,6 +187,15 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/EventType'
+              example:
+                - id: intro-call
+                  title: Знакомство
+                  description: Короткий звонок, чтобы обсудить задачу.
+                  durationMinutes: 30
+                - id: demo
+                  title: Демо продукта
+                  description: Покажем, как устроен сервис, и ответим на вопросы.
+                  durationMinutes: 45
       tags:
         - Guest
   /public/event-types/{eventTypeId}:
@@ -218,6 +244,15 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Slot'
+              example:
+                - startAt: '2026-08-18T09:00:00.000Z'
+                  endAt: '2026-08-18T09:30:00.000Z'
+                - startAt: '2026-08-18T09:30:00.000Z'
+                  endAt: '2026-08-18T10:00:00.000Z'
+                - startAt: '2026-08-19T10:00:00.000Z'
+                  endAt: '2026-08-19T10:30:00.000Z'
+                - startAt: '2026-08-20T14:00:00.000Z'
+                  endAt: '2026-08-20T14:30:00.000Z'
         '404':
           description: The server cannot find the requested resource.
           content:
@@ -270,6 +305,14 @@ components:
         guestEmail:
           type: string
       description: Confirmed reservation. `endAt` is computed from the event type duration.
+      examples:
+        - id: bkg_01
+          eventTypeId: intro-call
+          eventTypeTitle: Знакомство
+          startAt: '2026-08-19T10:00:00.000Z'
+          endAt: '2026-08-19T10:30:00.000Z'
+          guestName: Иван Петров
+          guestEmail: ivan@example.com
     ConflictError:
       type: object
       required:
@@ -365,6 +408,11 @@ components:
         durationMinutes:
           $ref: '#/components/schemas/DurationMinutes'
       description: Bookable meeting template created by the owner.
+      examples:
+        - id: intro-call
+          title: Знакомство
+          description: Короткий звонок, чтобы обсудить задачу.
+          durationMinutes: 30
     NotFoundError:
       type: object
       required:
@@ -397,6 +445,10 @@ components:
       description: |-
         The single predefined calendar owner.
         Not created via API; the admin UI reads this profile as-is.
+      examples:
+        - id: owner
+          displayName: Анна Ковалева
+          timezone: UTC
     Slot:
       type: object
       required:
@@ -412,6 +464,9 @@ components:
       description: |-
         A free interval the guest may book.
         `endAt` is always `startAt` plus the event type duration.
+      examples:
+        - startAt: '2026-08-18T09:00:00.000Z'
+          endAt: '2026-08-18T09:30:00.000Z'
 servers:
   - url: http://localhost:3000
     description: Local development

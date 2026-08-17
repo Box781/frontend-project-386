@@ -55,6 +55,11 @@ enum DurationMinutes {
  * The single predefined calendar owner.
  * Not created via API; the admin UI reads this profile as-is.
  */
+@example(#{
+  id: "owner",
+  displayName: "Анна Ковалева",
+  timezone: "UTC",
+})
 model Owner {
   /** Stable identifier of the hardcoded owner. */
   id: string;
@@ -66,6 +71,12 @@ model Owner {
 }
 
 /** Bookable meeting template created by the owner. */
+@example(#{
+  id: "intro-call",
+  title: "Знакомство",
+  description: "Короткий звонок, чтобы обсудить задачу.",
+  durationMinutes: DurationMinutes.thirty,
+})
 model EventType {
   /**
    * Owner-chosen identifier (slug). Unique among event types.
@@ -107,6 +118,10 @@ model CreateEventTypeRequest {
  * A free interval the guest may book.
  * `endAt` is always `startAt` plus the event type duration.
  */
+@example(#{
+  startAt: utcDateTime.fromISO("2026-08-18T09:00:00.000Z"),
+  endAt: utcDateTime.fromISO("2026-08-18T09:30:00.000Z"),
+})
 model Slot {
   startAt: utcDateTime;
   endAt: utcDateTime;
@@ -132,6 +147,15 @@ model CreateBookingRequest {
 }
 
 /** Confirmed reservation. `endAt` is computed from the event type duration. */
+@example(#{
+  id: "bkg_01",
+  eventTypeId: "intro-call",
+  eventTypeTitle: "Знакомство",
+  startAt: utcDateTime.fromISO("2026-08-19T10:00:00.000Z"),
+  endAt: utcDateTime.fromISO("2026-08-19T10:30:00.000Z"),
+  guestName: "Иван Петров",
+  guestEmail: "ivan@example.com",
+})
 model Booking {
   id: string;
 
@@ -180,6 +204,22 @@ interface Guest {
   /** Booking-types page: title, description, duration for every event type. */
   @get
   @route("/event-types")
+  @opExample(#{
+    returnType: #[
+      #{
+        id: "intro-call",
+        title: "Знакомство",
+        description: "Короткий звонок, чтобы обсудить задачу.",
+        durationMinutes: DurationMinutes.thirty,
+      },
+      #{
+        id: "demo",
+        title: "Демо продукта",
+        description: "Покажем, как устроен сервис, и ответим на вопросы.",
+        durationMinutes: DurationMinutes.fortyFive,
+      },
+    ],
+  })
   listEventTypes(): EventType[];
 
   /** Open one event type before showing its calendar. */
@@ -195,6 +235,27 @@ interface Guest {
    */
   @get
   @route("/event-types/{eventTypeId}/slots")
+  @opExample(#{
+    parameters: #{ eventTypeId: "intro-call" },
+    returnType: #[
+      #{
+        startAt: utcDateTime.fromISO("2026-08-18T09:00:00.000Z"),
+        endAt: utcDateTime.fromISO("2026-08-18T09:30:00.000Z"),
+      },
+      #{
+        startAt: utcDateTime.fromISO("2026-08-18T09:30:00.000Z"),
+        endAt: utcDateTime.fromISO("2026-08-18T10:00:00.000Z"),
+      },
+      #{
+        startAt: utcDateTime.fromISO("2026-08-19T10:00:00.000Z"),
+        endAt: utcDateTime.fromISO("2026-08-19T10:30:00.000Z"),
+      },
+      #{
+        startAt: utcDateTime.fromISO("2026-08-20T14:00:00.000Z"),
+        endAt: utcDateTime.fromISO("2026-08-20T14:30:00.000Z"),
+      },
+    ],
+  })
   listSlots(@path eventTypeId: string): Slot[] | NotFoundError;
 
   /**
@@ -226,6 +287,22 @@ interface OwnerAdmin {
   /** Event types the owner has created. */
   @get
   @route("/event-types")
+  @opExample(#{
+    returnType: #[
+      #{
+        id: "intro-call",
+        title: "Знакомство",
+        description: "Короткий звонок, чтобы обсудить задачу.",
+        durationMinutes: DurationMinutes.thirty,
+      },
+      #{
+        id: "demo",
+        title: "Демо продукта",
+        description: "Покажем, как устроен сервис, и ответим на вопросы.",
+        durationMinutes: DurationMinutes.fortyFive,
+      },
+    ],
+  })
   listEventTypes(): EventType[];
 
   /**
@@ -245,5 +322,18 @@ interface OwnerAdmin {
    */
   @get
   @route("/bookings")
+  @opExample(#{
+    returnType: #[
+      #{
+        id: "bkg_01",
+        eventTypeId: "intro-call",
+        eventTypeTitle: "Знакомство",
+        startAt: utcDateTime.fromISO("2026-08-19T10:00:00.000Z"),
+        endAt: utcDateTime.fromISO("2026-08-19T10:30:00.000Z"),
+        guestName: "Иван Петров",
+        guestEmail: "ivan@example.com",
+      },
+    ],
+  })
   listUpcomingBookings(): Booking[];
 }

@@ -5,4 +5,8 @@
 
 Упрощённый сервис записи на звонок по мотивам [Cal.com](https://cal.com). Разработка идёт Design First: сначала API-контракт, затем фронтенд и бэкенд по нему.
 
-Контракт: [`api-contract/`](api-contract/).
+Контракт: [`api-contract/`](api-contract/).  
+Интерфейс: [`frontend/`](frontend/).
+
+Локально: `make prism` и в другом терминале `make frontend`.
+
