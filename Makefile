@@ -10,7 +10,7 @@ backend:
 	cd backend && npm ci && npm run dev
 
 frontend:
-	cd frontend && npm ci && npm run dev
+	cd frontend && SCARF_ANALYTICS=false npm ci && npm run dev
 
 e2e:
 	cd e2e && npm ci && npx playwright install --with-deps chromium && npm test
